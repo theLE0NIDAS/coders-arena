@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code</title>
+
+    <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
+</link>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/monokai.min.css">
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
+</script>
+<script rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/clike/clike.min.js"></script>
+</head>
+<body>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <textarea name="cppcode" id="cppcode" cols="50" rows="30"></textarea><br>
+       <input type="submit" value="Compile" />
+    </form>
+    
+    <script>
+        let code = CodeMirror.fromTextArea(document.querySelector('#cppcode'), {
+        lineNumbers: true,
+        tabSize: 4,
+        matchBrackets: true,
+        theme: "monokai",
+        mode: "text/x-c++src",
+        
+        });
+    </script>
+</body>
+</html>
