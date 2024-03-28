@@ -1,0 +1,36 @@
+name: Deploy to Github Pages
+
+on:
+    workflow_dispatch:
+        inputs:
+            deploy:
+                description: 'Deploy to Github Pages'
+                required: true
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Navigate to frontend folder
+          run: cd online-judge-frontend-typescript
+
+        - name: Install dependencies
+          run: npm install --prefix=online-judge-frontend-typescript
+
+        - name: Build
+          run: |
+            cd online-judge-frontend-typescript
+            export CI=false
+            npm run build
+
+        - name: Deploy to Github Pages
+          uses: JamesIves/github-pages-deploy-action@releases/v3
+          with:
+            ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+            BRANCH: gh-pages
+            FOLDER: online-judge-frontend-typescript/build
+            CLEAN: true
