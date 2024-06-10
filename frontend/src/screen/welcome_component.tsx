@@ -1,12 +1,13 @@
 import { Container, Row, Col, Alert } from "react-bootstrap";
+import './WelcomeComponent.css'; // Import the CSS file
 
 const WelcomeComponent = () => {
   return (
-    <Container>
+    <Container fluid className="welcome-container">
       <Row>
         <Col>
-          <Alert variant="info" className="w-50 mx-auto mt-5">
-            Welcome to Creatish Online Judge
+          <Alert variant="info" className="w-100 mx-auto alert">
+            Welcome to Coder's Arena
           </Alert>
         </Col>
       </Row>
@@ -15,3 +16,4 @@ const WelcomeComponent = () => {
 };
 
 export default WelcomeComponent;
+

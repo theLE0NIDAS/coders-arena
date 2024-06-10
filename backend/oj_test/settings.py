@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import environ
+import corsheaders
 
 env = environ.Env()
 environ.Env.read_env()
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x)10$swli^z9#q9sr1d26(_5o2jl^f4p&@wh%1g=2ka!4n4v(6'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,11 +89,21 @@ WSGI_APPLICATION = 'oj_test.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default':{
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+        'NAME':'coder\'s_arena',
+        'USER':'postgres',
+        'PASSWORD':'123456789',
+        'HOST':'localhost',
+        'PORT':'5432',
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         'NAME': BASE_DIR / 'db.sqlite3.bkp',
+#     }
+# }
 
 
 # Password validation
@@ -119,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Calcutta'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -136,8 +147,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-bcryptSalt = env('BCRYPT_SALT')
-sendInBlueApiKey = env('SENDINBLUE_API_KEY')
+# bcryptSalt = env('BCRYPT_SALT')
+bcryptSalt = '$2b$12$wXuZyLw3RjG7yTAsUlb8je'
+sendInBlueApiKey = env('SENDINBLUE_API_KEY', default=None)
 jwtSecret = env('JWT_SECRET')
 
 REST_FRAMEWORK = {

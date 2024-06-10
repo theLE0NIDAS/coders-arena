@@ -160,7 +160,7 @@ const ProblemScreen = () => {
     submitStatusEnum.notStarted
   );
 
-  let code: string = "";
+  let code: string = ""; // code is here
   const fetchProblem = async () => {
     setBusy(true);
     if (localStorage.getItem(OJ_TOKEN_KEY) === null) {
@@ -291,6 +291,7 @@ const ProblemScreen = () => {
       codes: code,
       language: language,
     };
+    console.log(data)
 
     try {
       let res = await axios.post(

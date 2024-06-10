@@ -7,7 +7,7 @@ class User(models.Model):
     email = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     isActive = models.BooleanField(default=True)
-    registeredOn = models.DateTimeField('date registered')
+    registeredOn = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.email)

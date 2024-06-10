@@ -35,7 +35,7 @@ const App = () => {
     <Router>
       <Navbar bg="dark" expand="lg">
         <Container fluid>
-          <Navbar.Brand><Link to="/" className="white" >Creatish Judge</Link></Navbar.Brand>
+          <Navbar.Brand><Link to="/" className="white" >Coder's Arena</Link></Navbar.Brand>
           <Nav>
             <Nav.Link>
               <Link to="/" className="white" >

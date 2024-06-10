@@ -15,6 +15,7 @@ import bcrypt
 from django.utils import timezone
 from compiler.common.config import BASE_URL, FRONTEND_BASE_URL
 import time
+from datetime import datetime, timedelta
 import calendar
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
@@ -71,7 +72,7 @@ def users(request):
         user = User(
             email=email,
             password=hashedPassword,
-            registeredOn=timezone.now(),
+            # registeredOn=timezone.now(),
             isActive=False)
         user.save()
 
@@ -80,7 +81,7 @@ def users(request):
 
         registrationToken = SignupToken(
             token=token,
-            expiration=timezone.now() + tenminutes,
+            expiration=datetime.now() + tenminutes,
             user=user
         )
         registrationToken.save()
@@ -262,21 +263,33 @@ def forgotPasswordVerification(request, email, token):
 
 
 def sendEmail(subject: str, html_content: str, to_email: str):
+    # Configure the API client
     configuration = sib_api_v3_sdk.Configuration()
-    configuration.api_key['api-key'] = sendInBlueApiKey
+    configuration.api_key['api-key'] = sendInBlueApiKey  # Your Brevo API key
 
-    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
-    subject = subject
-    html_content = html_content
-    sender = {"name": "Balaji Jangde", "email": "balajangde@gmail.com"}
-    to = [{"email": to_email}]
-    send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(to=to,
-                                                   html_content=html_content, sender=sender, subject=subject)
+    # Create an instance of the TransactionalEmailsApi
+    email_api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
+
+    # Set up the email details
+    sender = {"name": "Divyansh Pathak", "email": "dpnation098@gmail.com"}  # Sender info
+    to = [{"email": to_email}]  # Recipient info
+
+    # Create the email object
+    send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+        to=to,  # List of recipients
+        html_content=html_content,  # HTML content of the email
+        sender=sender,  # Sender info
+        subject=subject  # Subject of the email
+    )
+
     try:
-        api_response = api_instance.send_transac_email(send_smtp_email)
-        pprint(api_response)
+        # Send the email
+        api_response = email_api_instance.send_transac_email(send_smtp_email)
+        pprint(api_response)  # Print the API response
     except ApiException as e:
-        print("Exception when calling SMTPApi->send_transac_email: %s\n" % e)
+        print(f"Exception when calling TransactionalEmailsApi->send_transac_email: {e}")
+
+
 
 
 @api_view(['POST', 'GET'])
