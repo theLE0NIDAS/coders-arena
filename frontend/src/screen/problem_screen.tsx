@@ -1,4 +1,4 @@
-import React, { useState, useEffect, BaseSyntheticEvent } from "react";
+import React, { useState, useEffect, useCallback  } from "react";
 import { useParams } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import {
@@ -60,7 +60,7 @@ const RecentSubmissionComponent = () => {
     const time = section[1].split(".")[0];
     return `${date} ${time}`;
   };
-  const fetchRecentSubmission = async () => {
+  const fetchRecentSubmission = useCallback(async () => {
     setBusy(true);
     const data = {
       headers: {
@@ -87,14 +87,14 @@ const RecentSubmissionComponent = () => {
     } finally {
       setBusy(false);
     }
-  };
+  },[problemId]);
   
   useEffect(() => {
     fetchRecentSubmission();
-  }, []);
+  }, [fetchRecentSubmission]);
   return busy ? (
     <Spinner animation="border"></Spinner>
-  ) : submissions.length == 0 ? (
+  ) : submissions.length === 0 ? (
     <div>
       <Button
         className="mb-3 float-right"
@@ -162,7 +162,7 @@ const ProblemScreen = () => {
   );
 
   let code: string = ""; // code is here
-  const fetchProblem = async () => {
+  const fetchProblem = useCallback(async () => {
     setBusy(true);
     if (localStorage.getItem(OJ_TOKEN_KEY) === null) {
       alert("Authetication token required");
@@ -186,46 +186,46 @@ const ProblemScreen = () => {
     } finally {
       setBusy(false);
     }
-  };
+  },[problemId]);
   const renderSubmissionTab = () => {
-    if (submitStatus == submitStatusEnum.notStarted) {
+    if (submitStatus === submitStatusEnum.notStarted) {
       return <p>Please submit a solution</p>;
-    } else if (submitStatus == submitStatusEnum.submitting) {
+    } else if (submitStatus === submitStatusEnum.submitting) {
       return (
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       );
     } else {
-      if (submissionRes?.verdictCode == VerdictCode.AllClear) {
+      if (submissionRes?.verdictCode === VerdictCode.AllClear) {
         return (
           <Alert key={"success"} variant={"success"}>
             <h5>{submissionRes.result}</h5>
             <p>{submissionRes.details}</p>
           </Alert>
         );
-      } else if (submissionRes?.verdictCode == VerdictCode.WrongAnswer) {
+      } else if (submissionRes?.verdictCode === VerdictCode.WrongAnswer) {
         return (
           <Alert key={"danger"} variant={"danger"}>
             <h5>{submissionRes.result}</h5>
             <p>{submissionRes.details}</p>
           </Alert>
         );
-      } else if (submissionRes?.verdictCode == VerdictCode.CompilationError) {
+      } else if (submissionRes?.verdictCode === VerdictCode.CompilationError) {
         return (
           <Alert key={"danger"} variant={"danger"}>
             <h5>{submissionRes.result}</h5>
             <p>{submissionRes.details}</p>
           </Alert>
         );
-      } else if (submissionRes?.verdictCode == VerdictCode.RuntimeException) {
+      } else if (submissionRes?.verdictCode === VerdictCode.RuntimeException) {
         return (
           <Alert key={"danger"} variant={"danger"}>
             <h5>{submissionRes.result}</h5>
             <p>{submissionRes.details}</p>
           </Alert>
         );
-      } else if (submissionRes?.verdictCode == VerdictCode.TimeLimitException) {
+      } else if (submissionRes?.verdictCode === VerdictCode.TimeLimitException) {
         return (
           <Alert key={"danger"} variant={"danger"}>
             <h5>{submissionRes.result}</h5>
@@ -236,9 +236,9 @@ const ProblemScreen = () => {
     }
   };
   const languageSupport = () => {
-    if (language == "cpp") {
+    if (language === "cpp") {
       return [cpp()];
-    } else if (language == "java") {
+    } else if (language === "java") {
       return [java()];
     } else {
       return [python()];
@@ -269,17 +269,17 @@ const ProblemScreen = () => {
         return oneDark;
     }
   };
-  const setLanguageSupport = (e: BaseSyntheticEvent) => {
-    console.log(e);
-  };
+  // const setLanguageSupport = (e: BaseSyntheticEvent) => {
+  //   console.log(e);
+  // };
   const setLanguageTemplate = () => {
-    if (language == "cpp") return (code = cppTemplate);
-    else if (language == "java") return (code = javaTemplate);
+    if (language === "cpp") return (code = cppTemplate);
+    else if (language === "java") return (code = javaTemplate);
     else return (code = pythonTemplate);
   };
   useEffect(() => {
     fetchProblem();
-  }, []);
+  }, [fetchProblem]);
 
   const submitCode = async () => {
     if (localStorage.getItem(OJ_TOKEN_KEY) === null) {
@@ -307,7 +307,7 @@ const ProblemScreen = () => {
       setSubmissionRes(res.data);
     } catch (e: any) {
       console.log(e);
-      if (e.response.status == 406) {
+      if (e.response.status === 406) {
         setSubmissionRes(e.response.data);
       } else {
         console.log(e);

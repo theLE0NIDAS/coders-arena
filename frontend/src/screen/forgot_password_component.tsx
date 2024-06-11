@@ -4,12 +4,12 @@ import { Button, Container, Row, Col, Alert, Spinner } from "react-bootstrap";
 import {
   BACKEND_BASE_URL,
   FORGOT_PASSWORD_ENDPOINT,
-  OJ_TOKEN_KEY,
+  // OJ_TOKEN_KEY,
 } from "../common/constants";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 
  const ForgotPassword = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
   const [busy, setBusy] = useState<boolean>(false);

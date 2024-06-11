@@ -2,7 +2,7 @@ import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
 import { python } from "@codemirror/lang-python";
 import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback  } from "react";
 import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { BACKEND_BASE_URL, OJ_TOKEN_KEY } from "../common/constants";
@@ -15,11 +15,8 @@ const SubmissionComponent = () => {
   const [busy, setBusy] = useState<boolean>(false);
   const [submission, setSubmission] =
     useState<ProblemSubmissionDetailed | null>(null);
-  useEffect(() => {
-    fetchSubmission();
-  }, []);
 
-  const fetchSubmission = async () => {
+  const fetchSubmission = useCallback(async () => {
     if (localStorage.getItem(OJ_TOKEN_KEY) === null) {
       alert("Authetication token required to access this page");
       return;
@@ -43,16 +40,19 @@ const SubmissionComponent = () => {
     } finally {
       setBusy(false);
     }
-  };
+  },[id]);
   const languageSupport = (language: string | null) => {
-    if (language == "c++") {
+    if (language === "c++") {
       return [cpp()];
-    } else if (language == "java") {
+    } else if (language === "java") {
       return [java()];
     } else {
       return [python()];
     }
   };
+  useEffect(() => {
+    fetchSubmission();
+  }, [fetchSubmission]);
   return busy ? (
     <Spinner animation="border"></Spinner>
   ) : (

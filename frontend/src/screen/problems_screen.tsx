@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProblemProps from "../model/problem_props";
 import Problem from "../component/problem";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { BACKEND_BASE_URL } from "../common/constants";
 
 const ProblemsScreen = () => {
@@ -16,7 +16,7 @@ const ProblemsScreen = () => {
     setProblems(res.data);
   };
   const renderProblems = () => {
-    if (problems.length == 0)
+    if (problems.length === 0)
       return (
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading...</span>
