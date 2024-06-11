@@ -88,16 +88,28 @@ WSGI_APPLICATION = 'oj_test.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
     'default':{
         'ENGINE':'django.db.backends.postgresql_psycopg2',
-        'NAME':'coder\'s_arena',
-        'USER':'postgres',
-        'PASSWORD':'123456789',
-        'HOST':'localhost',
+        'NAME':'verceldb',
+        'USER':'default',
+        'PASSWORD':'IK0w5XbUgRPZ',
+        'HOST':'ep-lingering-fog-a1en42zq-pooler.ap-southeast-1.aws.neon.tech',
         'PORT':'5432',
     }
 }
+
+# DATABASES = {
+#     'default':{
+#         'ENGINE':'django.db.backends.postgresql_psycopg2',
+#         'NAME':'coder\'s_arena',
+#         'USER':'postgres',
+#         'PASSWORD':'123456789',
+#         'HOST':'localhost',
+#         'PORT':'5432',
+#     }
+# }
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
