@@ -1,4 +1,3 @@
-import { Row, Col } from "react-bootstrap";
 import ProblemProps from "../model/problem_props";
 import { Link } from "react-router-dom";
 

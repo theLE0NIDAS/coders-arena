@@ -88,6 +88,7 @@ const RecentSubmissionComponent = () => {
       setBusy(false);
     }
   };
+  
   useEffect(() => {
     fetchRecentSubmission();
   }, []);

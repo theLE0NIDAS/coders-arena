@@ -8,7 +8,7 @@ import {
 } from "../common/constants";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-export default () => {
+ const ForgotPasswordConfirmation = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -111,3 +111,5 @@ export default () => {
     </Alert>
   );
 };
+
+export default ForgotPasswordConfirmation;
